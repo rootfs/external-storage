@@ -57,3 +57,8 @@ import:
 - package: github.com/lpabon/godbc
   version: 9577782
 - package: github.com/dgrijalva/jwt-go
+- package: github.com/gophercloud/gophercloud
+  version: 48f36ae
+  subpackage:
+     - openstack/blockstorage/extensions/volumeactions
+     - openstack/blockstorage/v2/volumes
