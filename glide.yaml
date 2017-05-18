@@ -39,6 +39,7 @@ import:
   - pkg/api/v1
   - pkg/apis/storage/v1
   - pkg/apis/storage/v1beta1
+  - pkg/cloudprovider/providers/openstack
   - rest
   - tools/cache
   - tools/clientcmd
