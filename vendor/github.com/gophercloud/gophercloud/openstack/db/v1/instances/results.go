@@ -1,11 +1,11 @@
 package instances
 
 import (
-	"encoding/json"
 	"time"
 
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/openstack/db/v1/datastores"
+	"github.com/gophercloud/gophercloud/openstack/db/v1/flavors"
 	"github.com/gophercloud/gophercloud/openstack/db/v1/users"
 	"github.com/gophercloud/gophercloud/pagination"
 )
@@ -18,24 +18,16 @@ type Volume struct {
 	Used float64
 }
 
-// Flavor represents (virtual) hardware configurations for server resources in a region.
-type Flavor struct {
-	// The flavor's unique identifier.
-	ID string
-	// Links to access the flavor.
-	Links []gophercloud.Link
-}
-
 // Instance represents a remote MySQL instance.
 type Instance struct {
 	// Indicates the datetime that the instance was created
-	Created time.Time `json:"-"`
+	Created time.Time `json:"created"`
 
 	// Indicates the most recent datetime that the instance was updated.
-	Updated time.Time `json:"-"`
+	Updated time.Time `json:"updated"`
 
 	// Indicates the hardware flavor the instance uses.
-	Flavor Flavor
+	Flavor flavors.Flavor
 
 	// A DNS-resolvable hostname associated with the database instance (rather
 	// than an IPv4 address). Since the hostname always resolves to the correct
@@ -44,10 +36,6 @@ type Instance struct {
 	// change on resizing, migrating, and so forth, the hostname always resolves
 	// to the correct database instance.
 	Hostname string
-
-	// The IP addresses associated with the database instance
-	// Is empty if the instance has a hostname
-	IP []string
 
 	// Indicates the unique identifier for the instance resource.
 	ID string
@@ -66,25 +54,6 @@ type Instance struct {
 
 	// Indicates how the instance stores data.
 	Datastore datastores.DatastorePartial
-}
-
-func (r *Instance) UnmarshalJSON(b []byte) error {
-	type tmp Instance
-	var s struct {
-		tmp
-		Created gophercloud.JSONRFC3339NoZ `json:"created"`
-		Updated gophercloud.JSONRFC3339NoZ `json:"updated"`
-	}
-	err := json.Unmarshal(b, &s)
-	if err != nil {
-		return err
-	}
-	*r = Instance(s.tmp)
-
-	r.Created = time.Time(s.Created)
-	r.Updated = time.Time(s.Updated)
-
-	return nil
 }
 
 type commonResult struct {

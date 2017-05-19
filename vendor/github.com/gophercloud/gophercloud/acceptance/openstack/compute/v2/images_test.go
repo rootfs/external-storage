@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/images"
 )
 
@@ -27,7 +26,7 @@ func TestImagesList(t *testing.T) {
 	}
 
 	for _, image := range allImages {
-		tools.PrintResource(t, image)
+		PrintImage(t, image)
 	}
 }
 
@@ -47,5 +46,5 @@ func TestImagesGet(t *testing.T) {
 		t.Fatalf("Unable to get image information: %v", err)
 	}
 
-	tools.PrintResource(t, image)
+	PrintImage(t, *image)
 }

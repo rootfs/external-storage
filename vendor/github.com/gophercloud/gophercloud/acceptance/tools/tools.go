@@ -2,10 +2,8 @@ package tools
 
 import (
 	"crypto/rand"
-	"encoding/json"
 	"errors"
 	mrand "math/rand"
-	"testing"
 	"time"
 )
 
@@ -64,10 +62,4 @@ func Elide(value string) string {
 		return value[0:37] + "..."
 	}
 	return value
-}
-
-// PrintResource returns a resource as a readable structure
-func PrintResource(t *testing.T, resource interface{}) {
-	b, _ := json.MarshalIndent(resource, "", "  ")
-	t.Logf(string(b))
 }

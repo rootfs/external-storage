@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/fwaas/policies"
 )
 
@@ -27,7 +26,7 @@ func TestPolicyList(t *testing.T) {
 	}
 
 	for _, policy := range allPolicies {
-		tools.PrintResource(t, policy)
+		PrintPolicy(t, &policy)
 	}
 }
 
@@ -43,7 +42,7 @@ func TestPolicyCRUD(t *testing.T) {
 	}
 	defer DeleteRule(t, client, rule.ID)
 
-	tools.PrintResource(t, rule)
+	PrintRule(t, rule)
 
 	policy, err := CreatePolicy(t, client, rule.ID)
 	if err != nil {
@@ -51,7 +50,7 @@ func TestPolicyCRUD(t *testing.T) {
 	}
 	defer DeletePolicy(t, client, policy.ID)
 
-	tools.PrintResource(t, policy)
+	PrintPolicy(t, policy)
 
 	updateOpts := policies.UpdateOpts{
 		Description: "Some policy description",
@@ -67,5 +66,5 @@ func TestPolicyCRUD(t *testing.T) {
 		t.Fatalf("Unable to get policy: %v", err)
 	}
 
-	tools.PrintResource(t, newPolicy)
+	PrintPolicy(t, newPolicy)
 }

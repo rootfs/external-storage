@@ -7,7 +7,6 @@ import (
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
 	networking "github.com/gophercloud/gophercloud/acceptance/openstack/networking/v2"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/lbaas/pools"
 )
 
@@ -28,7 +27,7 @@ func TestPoolsList(t *testing.T) {
 	}
 
 	for _, pool := range allPools {
-		tools.PrintResource(t, pool)
+		PrintPool(t, &pool)
 	}
 }
 
@@ -56,7 +55,7 @@ func TestPoolsCRUD(t *testing.T) {
 	}
 	defer DeletePool(t, client, pool.ID)
 
-	tools.PrintResource(t, pool)
+	PrintPool(t, pool)
 
 	updateOpts := pools.UpdateOpts{
 		LBMethod: pools.LBMethodLeastConnections,
@@ -72,7 +71,7 @@ func TestPoolsCRUD(t *testing.T) {
 		t.Fatalf("Unable to get pool: %v")
 	}
 
-	tools.PrintResource(t, newPool)
+	PrintPool(t, newPool)
 }
 
 func TestPoolsMonitors(t *testing.T) {

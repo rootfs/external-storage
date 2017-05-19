@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/floatingips"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
 )
@@ -28,7 +27,7 @@ func TestFloatingIPsList(t *testing.T) {
 	}
 
 	for _, floatingIP := range allFloatingIPs {
-		tools.PrintResource(t, floatingIP)
+		PrintFloatingIP(t, &floatingIP)
 	}
 }
 
@@ -38,13 +37,18 @@ func TestFloatingIPsCreate(t *testing.T) {
 		t.Fatalf("Unable to create a compute client: %v", err)
 	}
 
-	floatingIP, err := CreateFloatingIP(t, client)
+	choices, err := clients.AcceptanceTestChoicesFromEnv()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	floatingIP, err := CreateFloatingIP(t, client, choices)
 	if err != nil {
 		t.Fatalf("Unable to create floating IP: %v", err)
 	}
 	defer DeleteFloatingIP(t, client, floatingIP)
 
-	tools.PrintResource(t, floatingIP)
+	PrintFloatingIP(t, floatingIP)
 }
 
 func TestFloatingIPsAssociate(t *testing.T) {
@@ -57,19 +61,24 @@ func TestFloatingIPsAssociate(t *testing.T) {
 		t.Fatalf("Unable to create a compute client: %v", err)
 	}
 
-	server, err := CreateServer(t, client)
+	choices, err := clients.AcceptanceTestChoicesFromEnv()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	server, err := CreateServer(t, client, choices)
 	if err != nil {
 		t.Fatalf("Unable to create server: %v", err)
 	}
 	defer DeleteServer(t, client, server)
 
-	floatingIP, err := CreateFloatingIP(t, client)
+	floatingIP, err := CreateFloatingIP(t, client, choices)
 	if err != nil {
 		t.Fatalf("Unable to create floating IP: %v", err)
 	}
 	defer DeleteFloatingIP(t, client, floatingIP)
 
-	tools.PrintResource(t, floatingIP)
+	PrintFloatingIP(t, floatingIP)
 
 	err = AssociateFloatingIP(t, client, floatingIP, server)
 	if err != nil {
@@ -84,7 +93,7 @@ func TestFloatingIPsAssociate(t *testing.T) {
 
 	t.Logf("Floating IP %s is associated with Fixed IP %s", floatingIP.IP, newFloatingIP.FixedIP)
 
-	tools.PrintResource(t, newFloatingIP)
+	PrintFloatingIP(t, newFloatingIP)
 }
 
 func TestFloatingIPsFixedIPAssociate(t *testing.T) {
@@ -102,7 +111,7 @@ func TestFloatingIPsFixedIPAssociate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	server, err := CreateServer(t, client)
+	server, err := CreateServer(t, client, choices)
 	if err != nil {
 		t.Fatalf("Unable to create server: %v", err)
 	}
@@ -113,13 +122,13 @@ func TestFloatingIPsFixedIPAssociate(t *testing.T) {
 		t.Fatalf("Unable to get server %s: %v", server.ID, err)
 	}
 
-	floatingIP, err := CreateFloatingIP(t, client)
+	floatingIP, err := CreateFloatingIP(t, client, choices)
 	if err != nil {
 		t.Fatalf("Unable to create floating IP: %v", err)
 	}
 	defer DeleteFloatingIP(t, client, floatingIP)
 
-	tools.PrintResource(t, floatingIP)
+	PrintFloatingIP(t, floatingIP)
 
 	var fixedIP string
 	for _, networkAddresses := range newServer.Addresses[choices.NetworkName].([]interface{}) {
@@ -144,5 +153,5 @@ func TestFloatingIPsFixedIPAssociate(t *testing.T) {
 
 	t.Logf("Floating IP %s is associated with Fixed IP %s", floatingIP.IP, newFloatingIP.FixedIP)
 
-	tools.PrintResource(t, newFloatingIP)
+	PrintFloatingIP(t, newFloatingIP)
 }

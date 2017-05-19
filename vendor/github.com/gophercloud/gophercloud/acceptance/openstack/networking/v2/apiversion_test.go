@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/networking/v2/apiversions"
 )
 
@@ -27,7 +26,7 @@ func TestAPIVersionsList(t *testing.T) {
 	}
 
 	for _, apiVersion := range allAPIVersions {
-		tools.PrintResource(t, apiVersion)
+		PrintAPIVersion(t, &apiVersion)
 	}
 }
 
@@ -48,6 +47,6 @@ func TestAPIResourcesList(t *testing.T) {
 	}
 
 	for _, versionResource := range allVersionResources {
-		tools.PrintResource(t, versionResource)
+		PrintVersionResource(t, &versionResource)
 	}
 }

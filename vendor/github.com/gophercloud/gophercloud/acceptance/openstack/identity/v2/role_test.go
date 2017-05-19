@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/identity/v2/extensions/admin/roles"
 	"github.com/gophercloud/gophercloud/openstack/identity/v2/users"
 )
@@ -51,7 +50,7 @@ func TestRolesAddToUser(t *testing.T) {
 
 	t.Logf("Roles of user %s:", user.Name)
 	for _, role := range allRoles {
-		tools.PrintResource(t, role)
+		PrintUserRole(t, &role)
 	}
 }
 
@@ -72,6 +71,6 @@ func TestRolesList(t *testing.T) {
 	}
 
 	for _, r := range allRoles {
-		tools.PrintResource(t, r)
+		PrintRole(t, &r)
 	}
 }

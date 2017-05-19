@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/blockstorage/v1/snapshots"
 )
 
@@ -27,7 +26,7 @@ func TestSnapshotsList(t *testing.T) {
 	}
 
 	for _, snapshot := range allSnapshots {
-		tools.PrintResource(t, snapshot)
+		PrintSnapshot(t, &snapshot)
 	}
 }
 
@@ -54,5 +53,5 @@ func TestSnapshotsCreateDelete(t *testing.T) {
 		t.Errorf("Unable to retrieve snapshot: %v", err)
 	}
 
-	tools.PrintResource(t, newSnapshot)
+	PrintSnapshot(t, newSnapshot)
 }

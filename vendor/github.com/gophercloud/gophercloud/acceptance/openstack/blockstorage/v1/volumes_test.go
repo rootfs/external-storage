@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/blockstorage/v1/volumes"
 )
 
@@ -27,7 +26,7 @@ func TestVolumesList(t *testing.T) {
 	}
 
 	for _, volume := range allVolumes {
-		tools.PrintResource(t, volume)
+		PrintVolume(t, &volume)
 	}
 }
 
@@ -48,5 +47,5 @@ func TestVolumesCreateDestroy(t *testing.T) {
 		t.Errorf("Unable to retrieve volume: %v", err)
 	}
 
-	tools.PrintResource(t, newVolume)
+	PrintVolume(t, newVolume)
 }

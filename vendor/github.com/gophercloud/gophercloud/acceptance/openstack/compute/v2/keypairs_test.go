@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/keypairs"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
 )
@@ -30,7 +29,7 @@ func TestKeypairsList(t *testing.T) {
 	}
 
 	for _, keypair := range allKeys {
-		tools.PrintResource(t, keypair)
+		PrintKeyPair(t, &keypair)
 	}
 }
 
@@ -46,7 +45,7 @@ func TestKeypairsCreate(t *testing.T) {
 	}
 	defer DeleteKeyPair(t, client, keyPair)
 
-	tools.PrintResource(t, keyPair)
+	PrintKeyPair(t, keyPair)
 }
 
 func TestKeypairsImportPublicKey(t *testing.T) {
@@ -66,7 +65,7 @@ func TestKeypairsImportPublicKey(t *testing.T) {
 	}
 	defer DeleteKeyPair(t, client, keyPair)
 
-	tools.PrintResource(t, keyPair)
+	PrintKeyPair(t, keyPair)
 }
 
 func TestKeypairsServerCreateWithKey(t *testing.T) {
@@ -77,6 +76,11 @@ func TestKeypairsServerCreateWithKey(t *testing.T) {
 	client, err := clients.NewComputeV2Client()
 	if err != nil {
 		t.Fatalf("Unable to create a compute client: %v", err)
+	}
+
+	choices, err := clients.AcceptanceTestChoicesFromEnv()
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	publicKey, err := createKey()
@@ -90,7 +94,7 @@ func TestKeypairsServerCreateWithKey(t *testing.T) {
 	}
 	defer DeleteKeyPair(t, client, keyPair)
 
-	server, err := CreateServerWithPublicKey(t, client, keyPair.Name)
+	server, err := CreateServerWithPublicKey(t, client, choices, keyPair.Name)
 	if err != nil {
 		t.Fatalf("Unable to create server: %s", err)
 	}

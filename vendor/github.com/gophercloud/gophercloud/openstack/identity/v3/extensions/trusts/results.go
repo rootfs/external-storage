@@ -1,5 +1,7 @@
 package trusts
 
+import "github.com/gophercloud/gophercloud/openstack/identity/v3/tokens"
+
 type TrusteeUser struct {
 	ID string `json:"id"`
 }
@@ -17,6 +19,11 @@ type Trust struct {
 	RedelegationCount  int         `json:"redelegation_count"`
 }
 
-type TokenExt struct {
+type Token struct {
+	tokens.Token
 	Trust Trust `json:"OS-TRUST:trust"`
+}
+
+type TokenExt struct {
+	Token Token `json:"token"`
 }

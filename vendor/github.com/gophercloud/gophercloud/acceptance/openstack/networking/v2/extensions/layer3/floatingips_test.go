@@ -7,7 +7,6 @@ import (
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
 	networking "github.com/gophercloud/gophercloud/acceptance/openstack/networking/v2"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/networking/v2/extensions/layer3/floatingips"
 )
 
@@ -29,7 +28,7 @@ func TestLayer3FloatingIPsList(t *testing.T) {
 	}
 
 	for _, fip := range allFIPs {
-		tools.PrintResource(t, fip)
+		PrintFloatingIP(t, &fip)
 	}
 }
 
@@ -78,7 +77,7 @@ func TestLayer3FloatingIPsCreateDelete(t *testing.T) {
 		t.Fatalf("Unable to get floating ip: %v", err)
 	}
 
-	tools.PrintResource(t, newFip)
+	PrintFloatingIP(t, newFip)
 
 	// Disassociate the floating IP
 	updateOpts := floatingips.UpdateOpts{

@@ -31,7 +31,7 @@ func TestLoadbalancersList(t *testing.T) {
 	}
 
 	for _, lb := range allLoadbalancers {
-		tools.PrintResource(t, lb)
+		PrintLoadBalancer(t, &lb)
 	}
 }
 
@@ -64,7 +64,7 @@ func TestLoadbalancersCRUD(t *testing.T) {
 		t.Fatalf("Unable to get loadbalancer: %v", err)
 	}
 
-	tools.PrintResource(t, newLB)
+	PrintLoadBalancer(t, newLB)
 
 	// Because of the time it takes to create a loadbalancer,
 	// this test will include some other resources.
@@ -93,7 +93,7 @@ func TestLoadbalancersCRUD(t *testing.T) {
 		t.Fatalf("Unable to get listener")
 	}
 
-	tools.PrintResource(t, newListener)
+	PrintListener(t, newListener)
 
 	// Pool
 	pool, err := CreatePool(t, client, lb)
@@ -119,7 +119,7 @@ func TestLoadbalancersCRUD(t *testing.T) {
 		t.Fatalf("Unable to get pool")
 	}
 
-	tools.PrintResource(t, newPool)
+	PrintPool(t, newPool)
 
 	// Member
 	member, err := CreateMember(t, client, lb, newPool, subnet.ID, subnet.CIDR)
@@ -146,7 +146,7 @@ func TestLoadbalancersCRUD(t *testing.T) {
 		t.Fatalf("Unable to get member")
 	}
 
-	tools.PrintResource(t, newMember)
+	PrintMember(t, newMember)
 
 	// Monitor
 	monitor, err := CreateMonitor(t, client, lb, newPool)
@@ -173,6 +173,6 @@ func TestLoadbalancersCRUD(t *testing.T) {
 		t.Fatalf("Unable to get monitor")
 	}
 
-	tools.PrintResource(t, newMonitor)
+	PrintMonitor(t, newMonitor)
 
 }

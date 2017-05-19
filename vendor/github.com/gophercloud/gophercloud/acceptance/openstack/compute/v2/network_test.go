@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/networks"
 )
 
@@ -27,7 +26,7 @@ func TestNetworksList(t *testing.T) {
 	}
 
 	for _, network := range allNetworks {
-		tools.PrintResource(t, network)
+		PrintNetwork(t, &network)
 	}
 }
 
@@ -52,5 +51,5 @@ func TestNetworksGet(t *testing.T) {
 		t.Fatalf("Unable to get network %s: %v", networkID, err)
 	}
 
-	tools.PrintResource(t, network)
+	PrintNetwork(t, network)
 }

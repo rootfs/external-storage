@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	dsr "github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/defsecrules"
 )
 
@@ -27,7 +26,7 @@ func TestDefSecRulesList(t *testing.T) {
 	}
 
 	for _, defaultRule := range allDefaultRules {
-		tools.PrintResource(t, defaultRule)
+		PrintDefaultRule(t, &defaultRule)
 	}
 }
 
@@ -43,7 +42,7 @@ func TestDefSecRulesCreate(t *testing.T) {
 	}
 	defer DeleteDefaultRule(t, client, defaultRule)
 
-	tools.PrintResource(t, defaultRule)
+	PrintDefaultRule(t, &defaultRule)
 }
 
 func TestDefSecRulesGet(t *testing.T) {
@@ -63,5 +62,5 @@ func TestDefSecRulesGet(t *testing.T) {
 		t.Fatalf("Unable to get default rule %s: %v", defaultRule.ID, err)
 	}
 
-	tools.PrintResource(t, newDefaultRule)
+	PrintDefaultRule(t, newDefaultRule)
 }

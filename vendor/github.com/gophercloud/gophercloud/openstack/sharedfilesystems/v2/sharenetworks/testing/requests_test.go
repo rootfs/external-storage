@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/openstack/sharedfilesystems/v2/sharenetworks"
 	"github.com/gophercloud/gophercloud/pagination"
 	th "github.com/gophercloud/gophercloud/testhelper"
@@ -62,7 +63,7 @@ func TestListDetail(t *testing.T) {
 		{
 			ID:              "32763294-e3d4-456a-998d-60047677c2fb",
 			Name:            "net_my1",
-			CreatedAt:       time.Date(2015, 9, 4, 14, 57, 13, 0, time.UTC),
+			CreatedAt:       gophercloud.JSONRFC3339MilliNoZ(time.Date(2015, 9, 4, 14, 57, 13, 0, time.UTC)),
 			Description:     "descr",
 			NetworkType:     "",
 			CIDR:            "",
@@ -71,13 +72,13 @@ func TestListDetail(t *testing.T) {
 			NeutronSubnetID: "53482b62-2c84-4a53-b6ab-30d9d9800d06",
 			IPVersion:       0,
 			SegmentationID:  0,
-			UpdatedAt:       nilTime,
+			UpdatedAt:       gophercloud.JSONRFC3339MilliNoZ(nilTime),
 			ProjectID:       "16e1ab15c35a457e9c2b2aa189f544e1",
 		},
 		{
 			ID:              "713df749-aac0-4a54-af52-10f6c991e80c",
 			Name:            "net_my",
-			CreatedAt:       time.Date(2015, 9, 4, 14, 54, 25, 0, time.UTC),
+			CreatedAt:       gophercloud.JSONRFC3339MilliNoZ(time.Date(2015, 9, 4, 14, 54, 25, 0, time.UTC)),
 			Description:     "desecr",
 			NetworkType:     "",
 			CIDR:            "",
@@ -86,13 +87,13 @@ func TestListDetail(t *testing.T) {
 			NeutronSubnetID: "53482b62-2c84-4a53-b6ab-30d9d9800d06",
 			IPVersion:       0,
 			SegmentationID:  0,
-			UpdatedAt:       nilTime,
+			UpdatedAt:       gophercloud.JSONRFC3339MilliNoZ(nilTime),
 			ProjectID:       "16e1ab15c35a457e9c2b2aa189f544e1",
 		},
 		{
 			ID:              "fa158a3d-6d9f-4187-9ca5-abbb82646eb2",
 			Name:            "",
-			CreatedAt:       time.Date(2015, 9, 4, 14, 51, 41, 0, time.UTC),
+			CreatedAt:       gophercloud.JSONRFC3339MilliNoZ(time.Date(2015, 9, 4, 14, 51, 41, 0, time.UTC)),
 			Description:     "",
 			NetworkType:     "",
 			CIDR:            "",
@@ -101,7 +102,7 @@ func TestListDetail(t *testing.T) {
 			NeutronSubnetID: "",
 			IPVersion:       0,
 			SegmentationID:  0,
-			UpdatedAt:       nilTime,
+			UpdatedAt:       gophercloud.JSONRFC3339MilliNoZ(nilTime),
 			ProjectID:       "16e1ab15c35a457e9c2b2aa189f544e1",
 		},
 	}
@@ -149,7 +150,7 @@ func TestGet(t *testing.T) {
 	expected := sharenetworks.ShareNetwork{
 		ID:              "7f950b52-6141-4a08-bbb5-bb7ffa3ea5fd",
 		Name:            "net_my1",
-		CreatedAt:       time.Date(2015, 9, 4, 14, 56, 45, 0, time.UTC),
+		CreatedAt:       gophercloud.JSONRFC3339MilliNoZ(time.Date(2015, 9, 4, 14, 56, 45, 0, time.UTC)),
 		Description:     "descr",
 		NetworkType:     "",
 		CIDR:            "",
@@ -158,7 +159,7 @@ func TestGet(t *testing.T) {
 		NeutronSubnetID: "53482b62-2c84-4a53-b6ab-30d9d9800d06",
 		IPVersion:       0,
 		SegmentationID:  0,
-		UpdatedAt:       nilTime,
+		UpdatedAt:       gophercloud.JSONRFC3339MilliNoZ(nilTime),
 		ProjectID:       "16e1ab15c35a457e9c2b2aa189f544e1",
 	}
 
@@ -178,7 +179,7 @@ func TestUpdateNeutron(t *testing.T) {
 	expected := sharenetworks.ShareNetwork{
 		ID:              "713df749-aac0-4a54-af52-10f6c991e80c",
 		Name:            "net_my2",
-		CreatedAt:       time.Date(2015, 9, 4, 14, 54, 25, 0, time.UTC),
+		CreatedAt:       gophercloud.JSONRFC3339MilliNoZ(time.Date(2015, 9, 4, 14, 54, 25, 0, time.UTC)),
 		Description:     "new description",
 		NetworkType:     "",
 		CIDR:            "",
@@ -187,7 +188,7 @@ func TestUpdateNeutron(t *testing.T) {
 		NeutronSubnetID: "new-neutron-subnet-id",
 		IPVersion:       4,
 		SegmentationID:  0,
-		UpdatedAt:       time.Date(2015, 9, 7, 8, 2, 53, 512184000, time.UTC),
+		UpdatedAt:       gophercloud.JSONRFC3339MilliNoZ(time.Date(2015, 9, 7, 8, 2, 53, 512184000, time.UTC)),
 		ProjectID:       "16e1ab15c35a457e9c2b2aa189f544e1",
 	}
 
@@ -213,7 +214,7 @@ func TestUpdateNova(t *testing.T) {
 	expected := sharenetworks.ShareNetwork{
 		ID:              "713df749-aac0-4a54-af52-10f6c991e80c",
 		Name:            "net_my2",
-		CreatedAt:       time.Date(2015, 9, 4, 14, 54, 25, 0, time.UTC),
+		CreatedAt:       gophercloud.JSONRFC3339MilliNoZ(time.Date(2015, 9, 4, 14, 54, 25, 0, time.UTC)),
 		Description:     "new description",
 		NetworkType:     "",
 		CIDR:            "",
@@ -222,7 +223,7 @@ func TestUpdateNova(t *testing.T) {
 		NeutronSubnetID: "",
 		IPVersion:       4,
 		SegmentationID:  0,
-		UpdatedAt:       time.Date(2015, 9, 7, 8, 2, 53, 512184000, time.UTC),
+		UpdatedAt:       gophercloud.JSONRFC3339MilliNoZ(time.Date(2015, 9, 7, 8, 2, 53, 512184000, time.UTC)),
 		ProjectID:       "16e1ab15c35a457e9c2b2aa189f544e1",
 	}
 

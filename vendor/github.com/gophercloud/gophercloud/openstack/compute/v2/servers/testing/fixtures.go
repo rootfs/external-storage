@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"testing"
-	"time"
 
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
@@ -305,12 +304,10 @@ const ServerPasswordBody = `
 `
 
 var (
-	herpTimeCreated, _ = time.Parse(time.RFC3339, "2014-09-25T13:10:02Z")
-	herpTimeUpdated, _ = time.Parse(time.RFC3339, "2014-09-25T13:10:10Z")
 	// ServerHerp is a Server struct that should correspond to the first result in ServerListBody.
 	ServerHerp = servers.Server{
 		Status:  "ACTIVE",
-		Updated: herpTimeUpdated,
+		Updated: "2014-09-25T13:10:10Z",
 		HostID:  "29d3c8c896a45aa4c34e52247875d7fefc3d94bbcc9f622b5d204362",
 		Addresses: map[string]interface{}{
 			"private": []interface{}{
@@ -353,7 +350,7 @@ var (
 		ID:       "ef079b0c-e610-4dfb-b1aa-b49f07ac48e5",
 		UserID:   "9349aff8be7545ac9d2f1d00999a23cd",
 		Name:     "herp",
-		Created:  herpTimeCreated,
+		Created:  "2014-09-25T13:10:02Z",
 		TenantID: "fcad67a6189847c4aecfa3c81a05783b",
 		Metadata: map[string]string{},
 		SecurityGroups: []map[string]interface{}{
@@ -363,12 +360,10 @@ var (
 		},
 	}
 
-	derpTimeCreated, _ = time.Parse(time.RFC3339, "2014-09-25T13:04:41Z")
-	derpTimeUpdated, _ = time.Parse(time.RFC3339, "2014-09-25T13:04:49Z")
 	// ServerDerp is a Server struct that should correspond to the second server in ServerListBody.
 	ServerDerp = servers.Server{
 		Status:  "ACTIVE",
-		Updated: derpTimeUpdated,
+		Updated: "2014-09-25T13:04:49Z",
 		HostID:  "29d3c8c896a45aa4c34e52247875d7fefc3d94bbcc9f622b5d204362",
 		Addresses: map[string]interface{}{
 			"private": []interface{}{
@@ -411,7 +406,7 @@ var (
 		ID:       "9e5476bd-a4ec-4653-93d6-72c93aa682ba",
 		UserID:   "9349aff8be7545ac9d2f1d00999a23cd",
 		Name:     "derp",
-		Created:  derpTimeCreated,
+		Created:  "2014-09-25T13:04:41Z",
 		TenantID: "fcad67a6189847c4aecfa3c81a05783b",
 		Metadata: map[string]string{},
 		SecurityGroups: []map[string]interface{}{
@@ -421,12 +416,10 @@ var (
 		},
 	}
 
-	merpTimeCreated, _ = time.Parse(time.RFC3339, "2014-09-25T13:04:41Z")
-	merpTimeUpdated, _ = time.Parse(time.RFC3339, "2014-09-25T13:04:49Z")
 	// ServerMerp is a Server struct that should correspond to the second server in ServerListBody.
 	ServerMerp = servers.Server{
 		Status:  "ACTIVE",
-		Updated: merpTimeUpdated,
+		Updated: "2014-09-25T13:04:49Z",
 		HostID:  "29d3c8c896a45aa4c34e52247875d7fefc3d94bbcc9f622b5d204362",
 		Addresses: map[string]interface{}{
 			"private": []interface{}{
@@ -461,7 +454,7 @@ var (
 		ID:       "9e5476bd-a4ec-4653-93d6-72c93aa682bb",
 		UserID:   "9349aff8be7545ac9d2f1d00999a23cd",
 		Name:     "merp",
-		Created:  merpTimeCreated,
+		Created:  "2014-09-25T13:04:41Z",
 		TenantID: "fcad67a6189847c4aecfa3c81a05783b",
 		Metadata: map[string]string{},
 		SecurityGroups: []map[string]interface{}{
@@ -601,27 +594,6 @@ func HandleServerCreationWithCustomFieldSuccessfully(t *testing.T, response stri
 				"imageRef": "f90f6034-2570-4974-8351-6b49732ef2eb",
 				"flavorRef": "1",
 				"foo": "bar"
-			}
-		}`)
-
-		w.WriteHeader(http.StatusAccepted)
-		w.Header().Add("Content-Type", "application/json")
-		fmt.Fprintf(w, response)
-	})
-}
-
-// HandleServerCreationWithUserdata sets up the test server to respond to a server creation request
-// with a given response.
-func HandleServerCreationWithUserdata(t *testing.T, response string) {
-	th.Mux.HandleFunc("/servers", func(w http.ResponseWriter, r *http.Request) {
-		th.TestMethod(t, r, "POST")
-		th.TestHeader(t, r, "X-Auth-Token", client.TokenID)
-		th.TestJSONRequest(t, r, `{
-			"server": {
-				"name": "derp",
-				"imageRef": "f90f6034-2570-4974-8351-6b49732ef2eb",
-				"flavorRef": "1",
-				"user_data": "dXNlcmRhdGEgc3RyaW5n"
 			}
 		}`)
 

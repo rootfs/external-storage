@@ -24,6 +24,11 @@ type CreateResult struct {
 	commonResult
 }
 
+// createErr quickly wraps an error in a CreateResult.
+func createErr(err error) CreateResult {
+	return CreateResult{commonResult{gophercloud.Result{Err: err}}}
+}
+
 // UpdateResult is the deferred result of an Update call.
 type UpdateResult struct {
 	commonResult

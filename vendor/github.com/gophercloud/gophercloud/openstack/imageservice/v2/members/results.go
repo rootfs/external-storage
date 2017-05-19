@@ -1,6 +1,7 @@
 package members
 
 import (
+	"encoding/json"
 	"time"
 
 	"github.com/gophercloud/gophercloud"
@@ -9,12 +10,33 @@ import (
 
 // Member model
 type Member struct {
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt time.Time `json:"-"`
 	ImageID   string    `json:"image_id"`
 	MemberID  string    `json:"member_id"`
 	Schema    string    `json:"schema"`
 	Status    string    `json:"status"`
-	UpdatedAt time.Time `json:"updated_at"`
+	UpdatedAt time.Time `json:"-"`
+}
+
+func (s *Member) UnmarshalJSON(b []byte) error {
+	type tmp Member
+	var p *struct {
+		tmp
+		CreatedAt string `json:"created_at"`
+		UpdatedAt string `json:"updated_at"`
+	}
+	err := json.Unmarshal(b, &p)
+	if err != nil {
+		return err
+	}
+
+	*s = Member(p.tmp)
+	s.CreatedAt, err = time.Parse(time.RFC3339, p.CreatedAt)
+	if err != nil {
+		return err
+	}
+	s.UpdatedAt, err = time.Parse(time.RFC3339, p.UpdatedAt)
+	return err
 }
 
 // Extract Member model from request if possible

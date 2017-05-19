@@ -7,7 +7,6 @@ import (
 
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack/identity/v3/endpoints"
 	"github.com/gophercloud/gophercloud/openstack/identity/v3/services"
 )
@@ -29,7 +28,7 @@ func TestEndpointsList(t *testing.T) {
 	}
 
 	for _, endpoint := range allEndpoints {
-		tools.PrintResource(t, endpoint)
+		PrintEndpoint(t, &endpoint)
 	}
 }
 
@@ -59,7 +58,7 @@ func TestEndpointsNavigateCatalog(t *testing.T) {
 	}
 
 	computeService := allServices[0]
-	tools.PrintResource(t, computeService)
+	PrintService(t, &computeService)
 
 	// Enumerate the endpoints available for this service.
 	endpointListOpts := endpoints.ListOpts{
@@ -81,6 +80,6 @@ func TestEndpointsNavigateCatalog(t *testing.T) {
 		t.Fatalf("Expected one endpoint, got %d", len(allEndpoints))
 	}
 
-	tools.PrintResource(t, allEndpoints[0])
+	PrintEndpoint(t, &allEndpoints[0])
 
 }

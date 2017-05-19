@@ -42,7 +42,7 @@ func TestPortsbindingCRUD(t *testing.T) {
 	}
 	defer networking.DeletePort(t, client, port.ID)
 
-	tools.PrintResource(t, port)
+	PrintPortsbinding(t, port)
 
 	// Update port
 	newPortName := tools.RandomString("TESTACC-", 8)
@@ -54,5 +54,5 @@ func TestPortsbindingCRUD(t *testing.T) {
 		t.Fatalf("Could not update port: %v", err)
 	}
 
-	tools.PrintResource(t, newPort)
+	PrintPortsbinding(t, newPort)
 }

@@ -1,9 +1,6 @@
 package secgroups
 
 import (
-	"encoding/json"
-	"strconv"
-
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/pagination"
 )
@@ -13,42 +10,19 @@ type SecurityGroup struct {
 	// The unique ID of the group. If Neutron is installed, this ID will be
 	// represented as a string UUID; if Neutron is not installed, it will be a
 	// numeric ID. For the sake of consistency, we always cast it to a string.
-	ID string `json:"-"`
+	ID string
 
 	// The human-readable name of the group, which needs to be unique.
-	Name string `json:"name"`
+	Name string
 
 	// The human-readable description of the group.
-	Description string `json:"description"`
+	Description string
 
 	// The rules which determine how this security group operates.
-	Rules []Rule `json:"rules"`
+	Rules []Rule
 
 	// The ID of the tenant to which this security group belongs.
 	TenantID string `json:"tenant_id"`
-}
-
-func (r *SecurityGroup) UnmarshalJSON(b []byte) error {
-	type tmp SecurityGroup
-	var s struct {
-		tmp
-		ID interface{} `json:"id"`
-	}
-	err := json.Unmarshal(b, &s)
-	if err != nil {
-		return err
-	}
-
-	*r = SecurityGroup(s.tmp)
-
-	switch t := s.ID.(type) {
-	case float64:
-		r.ID = strconv.FormatFloat(t, 'f', -1, 64)
-	case string:
-		r.ID = t
-	}
-
-	return err
 }
 
 // Rule represents a security group rule, a policy which determines how a
@@ -57,7 +31,7 @@ type Rule struct {
 	// The unique ID. If Neutron is installed, this ID will be
 	// represented as a string UUID; if Neutron is not installed, it will be a
 	// numeric ID. For the sake of consistency, we always cast it to a string.
-	ID string `json:"-"`
+	ID string
 
 	// The lower bound of the port range which this security group should open up
 	FromPort int `json:"from_port"`
@@ -76,37 +50,6 @@ type Rule struct {
 
 	// Not documented.
 	Group Group
-}
-
-func (r *Rule) UnmarshalJSON(b []byte) error {
-	type tmp Rule
-	var s struct {
-		tmp
-		ID            interface{} `json:"id"`
-		ParentGroupID interface{} `json:"parent_group_id"`
-	}
-	err := json.Unmarshal(b, &s)
-	if err != nil {
-		return err
-	}
-
-	*r = Rule(s.tmp)
-
-	switch t := s.ID.(type) {
-	case float64:
-		r.ID = strconv.FormatFloat(t, 'f', -1, 64)
-	case string:
-		r.ID = t
-	}
-
-	switch t := s.ParentGroupID.(type) {
-	case float64:
-		r.ParentGroupID = strconv.FormatFloat(t, 'f', -1, 64)
-	case string:
-		r.ParentGroupID = t
-	}
-
-	return err
 }
 
 // IPRange represents the IP range whose traffic will be accepted by the

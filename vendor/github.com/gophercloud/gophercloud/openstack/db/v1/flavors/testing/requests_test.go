@@ -33,7 +33,6 @@ func TestListFlavors(t *testing.T) {
 					{Href: "https://openstack.example.com/v1.0/1234/flavors/1", Rel: "self"},
 					{Href: "https://openstack.example.com/flavors/1", Rel: "bookmark"},
 				},
-				StrID: "1",
 			},
 			{
 				ID:   2,
@@ -43,7 +42,6 @@ func TestListFlavors(t *testing.T) {
 					{Href: "https://openstack.example.com/v1.0/1234/flavors/2", Rel: "self"},
 					{Href: "https://openstack.example.com/flavors/2", Rel: "bookmark"},
 				},
-				StrID: "2",
 			},
 			{
 				ID:   3,
@@ -53,7 +51,6 @@ func TestListFlavors(t *testing.T) {
 					{Href: "https://openstack.example.com/v1.0/1234/flavors/3", Rel: "self"},
 					{Href: "https://openstack.example.com/flavors/3", Rel: "bookmark"},
 				},
-				StrID: "3",
 			},
 			{
 				ID:   4,
@@ -63,17 +60,6 @@ func TestListFlavors(t *testing.T) {
 					{Href: "https://openstack.example.com/v1.0/1234/flavors/4", Rel: "self"},
 					{Href: "https://openstack.example.com/flavors/4", Rel: "bookmark"},
 				},
-				StrID: "4",
-			},
-			{
-				ID:   0,
-				Name: "ds512M",
-				RAM:  512,
-				Links: []gophercloud.Link{
-					{Href: "https://openstack.example.com/v1.0/1234/flavors/d1", Rel: "self"},
-					{Href: "https://openstack.example.com/flavors/d1", Rel: "bookmark"},
-				},
-				StrID: "d1",
 			},
 		}
 
@@ -100,7 +86,6 @@ func TestGetFlavor(t *testing.T) {
 		Links: []gophercloud.Link{
 			{Href: "https://openstack.example.com/v1.0/1234/flavors/1", Rel: "self"},
 		},
-		StrID: "1",
 	}
 
 	th.AssertDeepEquals(t, expected, actual)

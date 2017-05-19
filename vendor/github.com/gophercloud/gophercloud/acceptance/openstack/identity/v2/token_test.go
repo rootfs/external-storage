@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/gophercloud/gophercloud/acceptance/clients"
-	"github.com/gophercloud/gophercloud/acceptance/tools"
 	"github.com/gophercloud/gophercloud/openstack"
 	"github.com/gophercloud/gophercloud/openstack/identity/v2/tokens"
 )
@@ -28,7 +27,7 @@ func TestTokenAuthenticate(t *testing.T) {
 		t.Fatalf("Unable to extract token: %v", err)
 	}
 
-	tools.PrintResource(t, token)
+	PrintToken(t, token)
 
 	catalog, err := result.ExtractServiceCatalog()
 	if err != nil {
@@ -36,7 +35,7 @@ func TestTokenAuthenticate(t *testing.T) {
 	}
 
 	for _, entry := range catalog.Entries {
-		tools.PrintResource(t, entry)
+		PrintCatalogEntry(t, &entry)
 	}
 }
 
@@ -57,7 +56,7 @@ func TestTokenValidate(t *testing.T) {
 		t.Fatalf("Unable to extract token: %v", err)
 	}
 
-	tools.PrintResource(t, token)
+	PrintToken(t, token)
 
 	getResult := tokens.Get(client, token.ID)
 	user, err := getResult.ExtractUser()
@@ -65,5 +64,5 @@ func TestTokenValidate(t *testing.T) {
 		t.Fatalf("Unable to extract user: %v", err)
 	}
 
-	tools.PrintResource(t, user)
+	PrintTokenUser(t, user)
 }

@@ -39,7 +39,6 @@ import:
   - pkg/api/v1
   - pkg/apis/storage/v1
   - pkg/apis/storage/v1beta1
-  - pkg/cloudprovider/providers/openstack
   - rest
   - tools/cache
   - tools/clientcmd
@@ -49,17 +48,15 @@ import:
   subpackages:
   - pkg/util/goroutinemap
   - pkg/util/version
-- package: github.com/heketi/heketi/client/api/go-client
+- package: github.com/heketi/heketi
   version: 7a54b6f
-- package: github.com/heketi/heketi/pkg/glusterfs/api
-  version: 7a54b6f
-- package: github.com/heketi/heketi/pkg/utils
-  version: 7a54b6f
+  subpackages:
+  - client/api/go-client
+  - pkg/glusterfs/api
+  - pkg/utils
 - package: github.com/lpabon/godbc
-  version: 9577782
+  version: "9577782"
 - package: github.com/dgrijalva/jwt-go
 - package: github.com/gophercloud/gophercloud
-  version: 48f36ae
-  subpackage:
-     - openstack/blockstorage/extensions/volumeactions
-     - openstack/blockstorage/v2/volumes
+- package: github.com/rootfs/kubernetes
+  version: gophercloud-exp

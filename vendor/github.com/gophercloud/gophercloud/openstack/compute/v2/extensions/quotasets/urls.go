@@ -11,11 +11,3 @@ func resourceURL(c *gophercloud.ServiceClient) string {
 func getURL(c *gophercloud.ServiceClient, tenantID string) string {
 	return c.ServiceURL(resourcePath, tenantID)
 }
-
-func updateURL(c *gophercloud.ServiceClient, tenantID string) string {
-	return getURL(c, tenantID)
-}
-
-func deleteURL(c *gophercloud.ServiceClient, tenantID string) string {
-	return getURL(c, tenantID)
-}

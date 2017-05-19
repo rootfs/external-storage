@@ -30,7 +30,7 @@ func TestServersList(t *testing.T) {
 	}
 
 	for _, server := range allServers {
-		tools.PrintResource(t, server)
+		PrintServer(t, &server)
 	}
 }
 
@@ -45,7 +45,7 @@ func TestServersCreateDestroy(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	server, err := CreateServer(t, client)
+	server, err := CreateServer(t, client, choices)
 	if err != nil {
 		t.Fatalf("Unable to create server: %v", err)
 	}
@@ -56,7 +56,7 @@ func TestServersCreateDestroy(t *testing.T) {
 	if err != nil {
 		t.Errorf("Unable to retrieve server: %v", err)
 	}
-	tools.PrintResource(t, newServer)
+	PrintServer(t, newServer)
 
 	allAddressPages, err := servers.ListAddresses(client, server.ID).AllPages()
 	if err != nil {
@@ -94,7 +94,12 @@ func TestServersWithoutImageRef(t *testing.T) {
 		t.Fatalf("Unable to create a compute client: %v", err)
 	}
 
-	server, err := CreateServerWithoutImageRef(t, client)
+	choices, err := clients.AcceptanceTestChoicesFromEnv()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	server, err := CreateServerWithoutImageRef(t, client, choices)
 	if err != nil {
 		if err400, ok := err.(*gophercloud.ErrUnexpectedResponseCode); ok {
 			if !strings.Contains("Missing imageRef attribute", string(err400.Body)) {
@@ -110,7 +115,12 @@ func TestServersUpdate(t *testing.T) {
 		t.Fatalf("Unable to create a compute client: %v", err)
 	}
 
-	server, err := CreateServer(t, client)
+	choices, err := clients.AcceptanceTestChoicesFromEnv()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	server, err := CreateServer(t, client, choices)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -149,12 +159,17 @@ func TestServersUpdate(t *testing.T) {
 func TestServersMetadata(t *testing.T) {
 	t.Parallel()
 
+	choices, err := clients.AcceptanceTestChoicesFromEnv()
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	client, err := clients.NewComputeV2Client()
 	if err != nil {
 		t.Fatalf("Unable to create a compute client: %v", err)
 	}
 
-	server, err := CreateServer(t, client)
+	server, err := CreateServer(t, client, choices)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -211,7 +226,12 @@ func TestServersActionChangeAdminPassword(t *testing.T) {
 		t.Fatalf("Unable to create a compute client: %v", err)
 	}
 
-	server, err := CreateServer(t, client)
+	choices, err := clients.AcceptanceTestChoicesFromEnv()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	server, err := CreateServer(t, client, choices)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -240,7 +260,12 @@ func TestServersActionReboot(t *testing.T) {
 		t.Fatalf("Unable to create a compute client: %v", err)
 	}
 
-	server, err := CreateServer(t, client)
+	choices, err := clients.AcceptanceTestChoicesFromEnv()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	server, err := CreateServer(t, client, choices)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -278,7 +303,7 @@ func TestServersActionRebuild(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	server, err := CreateServer(t, client)
+	server, err := CreateServer(t, client, choices)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -313,19 +338,24 @@ func TestServersActionRebuild(t *testing.T) {
 func TestServersActionResizeConfirm(t *testing.T) {
 	t.Parallel()
 
+	choices, err := clients.AcceptanceTestChoicesFromEnv()
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	client, err := clients.NewComputeV2Client()
 	if err != nil {
 		t.Fatalf("Unable to create a compute client: %v", err)
 	}
 
-	server, err := CreateServer(t, client)
+	server, err := CreateServer(t, client, choices)
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer DeleteServer(t, client, server)
 
 	t.Logf("Attempting to resize server %s", server.ID)
-	ResizeServer(t, client, server)
+	ResizeServer(t, client, server, choices)
 
 	t.Logf("Attempting to confirm resize for server %s", server.ID)
 	if res := servers.ConfirmResize(client, server.ID); res.Err != nil {
@@ -340,19 +370,24 @@ func TestServersActionResizeConfirm(t *testing.T) {
 func TestServersActionResizeRevert(t *testing.T) {
 	t.Parallel()
 
+	choices, err := clients.AcceptanceTestChoicesFromEnv()
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	client, err := clients.NewComputeV2Client()
 	if err != nil {
 		t.Fatalf("Unable to create a compute client: %v", err)
 	}
 
-	server, err := CreateServer(t, client)
+	server, err := CreateServer(t, client, choices)
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer DeleteServer(t, client, server)
 
 	t.Logf("Attempting to resize server %s", server.ID)
-	ResizeServer(t, client, server)
+	ResizeServer(t, client, server, choices)
 
 	t.Logf("Attempting to revert resize for server %s", server.ID)
 	if res := servers.RevertResize(client, server.ID); res.Err != nil {

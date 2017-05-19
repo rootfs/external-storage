@@ -9,20 +9,19 @@ import (
 
 const flavor = `
 {
-	"id": %s,
+	"id": %d,
 	"links": [
 		{
-			"href": "https://openstack.example.com/v1.0/1234/flavors/%s",
+			"href": "https://openstack.example.com/v1.0/1234/flavors/%d",
 			"rel": "self"
 		},
 		{
-			"href": "https://openstack.example.com/flavors/%s",
+			"href": "https://openstack.example.com/flavors/%d",
 			"rel": "bookmark"
 		}
 	],
 	"name": "%s",
-	"ram": %d,
-	"str_id": "%s"
+	"ram": %d
 }
 `
 
@@ -33,13 +32,12 @@ var (
 )
 
 var (
-	flavor1 = fmt.Sprintf(flavor, "1", "1", "1", "m1.tiny", 512, "1")
-	flavor2 = fmt.Sprintf(flavor, "2", "2", "2", "m1.small", 1024, "2")
-	flavor3 = fmt.Sprintf(flavor, "3", "3", "3", "m1.medium", 2048, "3")
-	flavor4 = fmt.Sprintf(flavor, "4", "4", "4", "m1.large", 4096, "4")
-	flavor5 = fmt.Sprintf(flavor, "null", "d1", "d1", "ds512M", 512, "d1")
+	flavor1 = fmt.Sprintf(flavor, 1, 1, 1, "m1.tiny", 512)
+	flavor2 = fmt.Sprintf(flavor, 2, 2, 2, "m1.small", 1024)
+	flavor3 = fmt.Sprintf(flavor, 3, 3, 3, "m1.medium", 2048)
+	flavor4 = fmt.Sprintf(flavor, 4, 4, 4, "m1.large", 4096)
 
-	listFlavorsResp = fmt.Sprintf(`{"flavors":[%s, %s, %s, %s, %s]}`, flavor1, flavor2, flavor3, flavor4, flavor5)
+	listFlavorsResp = fmt.Sprintf(`{"flavors":[%s, %s, %s, %s]}`, flavor1, flavor2, flavor3, flavor4)
 	getFlavorResp   = fmt.Sprintf(`{"flavor": %s}`, flavor1)
 )
 

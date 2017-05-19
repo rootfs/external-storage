@@ -68,35 +68,3 @@ func ExtractShareTypes(r pagination.Page) ([]ShareType, error) {
 type GetDefaultResult struct {
 	commonResult
 }
-
-// ExtraSpecs contains all the information associated with extra specifications
-// for an Openstack ShareType.
-type ExtraSpecs map[string]interface{}
-
-type extraSpecsResult struct {
-	gophercloud.Result
-}
-
-// Extract will get the ExtraSpecs object out of the commonResult object.
-func (r extraSpecsResult) Extract() (ExtraSpecs, error) {
-	var s struct {
-		Specs ExtraSpecs `json:"extra_specs"`
-	}
-	err := r.ExtractInto(&s)
-	return s.Specs, err
-}
-
-// GetExtraSpecsResult contains the response body and error from a Get Extra Specs request.
-type GetExtraSpecsResult struct {
-	extraSpecsResult
-}
-
-// SetExtraSpecsResult contains the response body and error from a Set Extra Specs request.
-type SetExtraSpecsResult struct {
-	extraSpecsResult
-}
-
-// UnsetExtraSpecsResult contains the response body and error from a Unset Extra Specs request.
-type UnsetExtraSpecsResult struct {
-	gophercloud.ErrResult
-}
