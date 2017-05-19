@@ -22,6 +22,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/gophercloud/gophercloud/openstack/blockstorage/extensions/volumeactions"
+
 	"github.com/golang/glog"
 	"github.com/kubernetes-incubator/external-storage/lib/controller"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -96,11 +98,26 @@ func (p *cinderProvisioner) Provision(options controller.VolumeOptions) (*v1.Per
 	//TODO udpate kubernetes vendor and fix AZ
 	volumeId, err := p.cloud.CreateVolume(name, volSizeGB, vtype, availability, nil)
 	if err != nil {
-		glog.V(2).Infof("Error creating cinder volume: %v", err)
+		glog.Infof("Error creating cinder volume: %v", err)
 		return nil, err
 	}
-	glog.V(2).Infof("Successfully created cinder volume %s", volumeId)
-
+	glog.Infof("Successfully created cinder volume %s", volumeId)
+	cClient, err := p.cloud.NewBlockStorageV2()
+	if err != nil {
+		glog.Infof("failed to get cinder client: %v", err)
+	} else {
+		opt := volumeactions.InitializeConnectionOpts{
+			Host:      "localhost",
+			IP:        "127.0.0.1",
+			Initiator: "com.example:www.test.com",
+		}
+		connectionInfo, err := volumeactions.InitializeConnection(cClient, volumeId, &opt).Extract()
+		if err == nil {
+			glog.Infof("connection info: %+v", connectionInfo)
+		} else {
+			glog.Infof("failed to initialize connection :%v", err)
+		}
+	}
 	pv := &v1.PersistentVolume{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: options.PVName,

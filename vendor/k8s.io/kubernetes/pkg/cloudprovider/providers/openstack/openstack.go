@@ -647,3 +647,25 @@ func (os *OpenStack) volumeService(forceVersion string) (volumeService, error) {
 		return nil, errors.New(err_txt)
 	}
 }
+
+func (os *OpenStack) NewBlockStorageV1() (*gophercloud.ServiceClient, error) {
+	sClient, err := openstack.NewBlockStorageV1(os.provider, gophercloud.EndpointOpts{
+		Region: os.region,
+	})
+	if err != nil || sClient == nil {
+		glog.Errorf("Unable to initialize cinder client for region: %s", os.region)
+		return nil, err
+	}
+	return sClient, err
+}
+
+func (os *OpenStack) NewBlockStorageV2() (*gophercloud.ServiceClient, error) {
+	sClient, err := openstack.NewBlockStorageV2(os.provider, gophercloud.EndpointOpts{
+		Region: os.region,
+	})
+	if err != nil || sClient == nil {
+		glog.Errorf("Unable to initialize cinder client for region: %s", os.region)
+		return nil, err
+	}
+	return sClient, err
+}
